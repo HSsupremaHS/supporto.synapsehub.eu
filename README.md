@@ -1,0 +1,1 @@
+# supporto.synapsehub.eu
