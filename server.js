@@ -7,6 +7,8 @@ const nodemailer = require('nodemailer');
 const axios = require('axios');
 const crypto = require('crypto');
 const path = require('path');
+const session = require('express-session');
+const express = require('express');
 require('dotenv').config();
 
 const app = express();
@@ -18,11 +20,26 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false, maxAge: 1800000 } // 30 minuti
+  secret: process.env.SESSION_SECRET || 'aooooooooquesto_Dev3essere___-un-secre-lungoeSIcuro',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 ore
+  }
 }));
+app.use((req, res, next) => {
+  const sensitivePaths = [
+    '/.env', '/.git', '/config.json', 
+    '/.DS_Store', '/php-cgi', '/admin'
+  ];
+  
+  if (sensitivePaths.some(path => req.path.includes(path))) {
+    return res.status(404).send('Not found');
+  }
+  next();
+});
 
 // Rate limiting per le richieste di supporto
 const supportRateLimit = rateLimit({
