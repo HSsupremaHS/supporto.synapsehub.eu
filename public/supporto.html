@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supporto - Synapse</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgb(233, 233, 233);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: #667eea;
+            transform: scale(1.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #2b0ae6, #2b0ae6);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            margin-right: 10px;
+            width: auto;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #cce7ff;
+            color: #e8ec00;
+            border: 1px solid #b3d7ff;
+        }
+
+        .otp-input {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 1rem 0;
+        }
+
+        .otp-digit {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+        }
+
+        .otp-digit:focus {
+            border-color: #667eea;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .rate-limit-info {
+            background: #fff3cd;
+            color: #a07800;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .success-animation {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 1.5rem;
+            }
+            
+            .otp-digit {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-headset"></i> Supporto Synapse</h1>
+            <p>Team TrusUs™ - Assistenza Professionale</p>
+        </div>
+
+        <div class="content">
+            <a href="/lander" class="back-link">
+                <i class="fas fa-arrow-left"></i> Torna alla Home
+            </a>
+
+            <div class="step-indicator">
+                <div class="step-dot active" id="dot-1"></div>
+                <div class="step-dot" id="dot-2"></div>
+                <div class="step-dot" id="dot-3"></div>
+            </div>
+
+            <!-- Step 1: Email Verification -->
+            <div class="step active" id="step-1">
+                <h2>Verifica la tua Email</h2>
+                <p style="margin-bottom: 1.5rem; color: #666;">Inserisci la tua email per ricevere un codice di verifica sicuro.</p>
+                
+                <div class="rate-limit-info">
+                    <i class="fas fa-info-circle"></i> 
+                    <strong>Nota:</strong> È possibile inviare massimo 2 richieste di supporto ogni 30 minuti.
+                </div>
+
+                <div id="email-alert"></div>
+                
+                <form id="email-form">
+                    <div class="form-group">
+                        <label for="email">Indirizzo Email</label>
+                        <input type="email" id="email" name="email" required placeholder="esempio@email.com">
+                    </div>
+                    <button type="submit" class="btn" id="send-otp-btn">
+                        <i class="fas fa-paper-plane"></i> Invia Codice di Verifica
+                    </button>
+                </form>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div class="step" id="step-2">
+                <h2>Inserisci il Codice di Verifica</h2>
+                <p style="margin-bottom: 1.5rem; color: #666;">Abbiamo inviato un codice a 6 cifre alla tua email. Inseriscilo qui sotto.</p>
+                
+                <div id="otp-alert"></div>
+                
+                <form id="otp-form">
+                    <div class="otp-input">
+                        <input type="text" class="otp-digit" maxlength="1" data-index="0">
+                        <input type="text" class="otp-digit" maxlength="1" data-index="1">
+                        <input type="text" class="otp-digit" maxlength="1" data-index="2">
+                        <input type="text" class="otp-digit" maxlength="1" data-index="3">
+                        <input type="text" class="otp-digit" maxlength="1" data-index="4">
+                        <input type="text" class="otp-digit" maxlength="1" data-index="5">
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 1rem;">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">
+                            <i class="fas fa-arrow-left"></i> Indietro
+                        </button>
+                        <button type="submit" class="btn" id="verify-otp-btn" style="flex: 1;">
+                            <i class="fas fa-check"></i> Verifica Codice
+                        </button>
+                    </div>
+                </form>
+                
+                <p style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                    Non hai ricevuto il codice? 
+                    <a href="#" onclick="resendOTP()" style="color: #667eea;">Invia di nuovo</a>
+                </p>
+            </div>
+
+            <!-- Step 3: Support Request -->
+            <div class="step" id="step-3">
+                <h2>Invia Richiesta di Supporto</h2>
+                <p style="margin-bottom: 1.5rem; color: #666;">Descrivi il tuo problema o la tua richiesta. Il nostro team ti risponderà il prima possibile.</p>
+                
+                <div id="support-alert"></div>
+                
+                <form id="support-form">
+                    <div class="form-group">
+                        <label for="support-email">Email (verificata)</label>
+                        <input type="email" id="support-email" name="email" readonly style="background: #f8f9fa;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="title">Titolo della Richiesta</label>
+                        <input type="text" id="title" name="title" required placeholder="Breve descrizione del problema">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Descrizione Dettagliata</label>
+                        <textarea id="message" name="message" required placeholder="Descrivi il tuo problema o la tua richiesta in dettaglio..."></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 1rem;">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
+                            <i class="fas fa-arrow-left"></i> Indietro
+                        </button>
+                        <button type="submit" class="btn" id="submit-support-btn" style="flex: 1;">
+                            <i class="fas fa-paper-plane"></i> Invia Richiesta
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Success Step -->
+            <div class="step" id="step-success">
+                <div class="success-animation">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2 style="color: #28a745; margin-bottom: 1rem;">Richiesta Inviata con Successo!</h2>
+                    <p style="color: #666; margin-bottom: 2rem; line-height: 1.6;">
+                        La tua richiesta di supporto è stata inviata al team TrusUs™. 
+                        Riceverai una conferma via email e una risposta il prima possibile.
+                    </p>
+                    <button class="btn" onclick="resetForm()">
+                        <i class="fas fa-plus"></i> Invia Nuova Richiesta
+                    </button>
+                    <br><br>
+                    <a href="/lander" class="back-link">
+                        <i class="fas fa-home"></i> Torna alla Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let verifiedEmail = '';
+
+        // Gestione step
+        function goToStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
+            
+            document.getElementById(`step-${step}`).classList.add('active');
+            for (let i = 1; i <= step; i++) {
+                document.getElementById(`dot-${i}`).classList.add('active');
+            }
+            
+            currentStep = step;
+        }
+
+        // Gestione form email
+        document.getElementById('email-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const btn = document.getElementById('send-otp-btn');
+            const alert = document.getElementById('email-alert');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading"></div> Invio in corso...';
+            alert.innerHTML = '';
+            
+            try {
+                const response = await fetch('/api/send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    verifiedEmail = email;
+                    alert.innerHTML = `<div class="alert alert-success"><i class="fas fa-check"></i> ${data.message}</div>`;
+                    setTimeout(() => goToStep(2), 1500);
+                } else {
+                    alert.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> ${data.error}</div>`;
+                }
+            } catch (error) {
+                alert.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> Errore di connessione. Riprova.</div>';
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Invia Codice di Verifica';
+        });
+
+        // Gestione input OTP
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Gestione form OTP
+        document.getElementById('otp-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            const btn = document.getElementById('verify-otp-btn');
+            const alert = document.getElementById('otp-alert');
+            
+            if (otp.length !== 6) {
+                alert.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> Inserisci tutte le 6 cifre del codice.</div>';
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading"></div> Verifica in corso...';
+            alert.innerHTML = '';
+            
+            try {
+                const response = await fetch('/api/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: verifiedEmail, otp })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert.innerHTML = `<div class="alert alert-success"><i class="fas fa-check"></i> ${data.message}</div>`;
+                    document.getElementById('support-email').value = verifiedEmail;
+                    setTimeout(() => goToStep(3), 1500);
+                } else {
+                    alert.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> ${data.error}</div>`;
+                    otpInputs.forEach(input => input.value = '');
+                    otpInputs[0].focus();
+                }
+            } catch (error) {
+                alert.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> Errore di connessione. Riprova.</div>';
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check"></i> Verifica Codice';
+        });
+
+        // Gestione form supporto
+        document.getElementById('support-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            const btn = document.getElementById('submit-support-btn');
+            const alert = document.getElementById('support-alert');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading"></div> Invio in corso...';
+            alert.innerHTML = '';
+            
+            try {
+                const response = await fetch('/api/submit-support', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('step-3').classList.remove('active');
+                    document.getElementById('step-success').classList.add('active');
+                } else {
+                    alert.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> ${result.error}</div>`;
+                }
+            } catch (error) {
+                alert.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> Errore di connessione. Riprova.</div>';
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Invia Richiesta';
+        });
+
+        // Funzioni utility
+        function resendOTP() {
+            goToStep(1);
+        }
+
+        function resetForm() {
+            document.getElementById('email-form').reset();
+            document.getElementById('otp-form').reset();
+            document.getElementById('support-form').reset();
+            otpInputs.forEach(input => input.value = '');
+            verifiedEmail = '';
+            goToStep(1);
+        }
+
+        // Focus automatico sul primo input OTP
+        document.addEventListener('DOMContentLoaded', () => {
+            otpInputs[0].focus();
+        });
+    </script>
+    
+    <!-- Chat AI Integration -->
+    <script src="chat-ai.js"></script>
+</body>
+</html>

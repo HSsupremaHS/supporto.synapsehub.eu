@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrusUs™ Team - Supporto SYNAPSE</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #dddddd;
+            background: linear-gradient(135deg, #2b0ae6 0%, #2b0ae6 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(201, 201, 201, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0080ff;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000000;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff0000, #ff4400);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .features {
+            background: rgb(231, 231, 231);
+            padding: 80px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #2b0ae6;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .team-section {
+            background: linear-gradient(135deg, #2b0ae6 0%, #0300ac 100%);
+            padding: 80px 0;
+            color: white;
+        }
+
+        .team-content {
+            text-align: center;
+        }
+
+        .team-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .team-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .support-process {
+            background: rgb(255, 240, 240);
+            padding: 80px 0;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #2b0ae6, #2104c2);
+            color: rgb(255, 232, 232);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        footer {
+            background: #232f3a;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">SYNAPSE</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#supporto">Supporto</a></li>
+                <li><a href="/supporto" class="cta-button" style="padding: 10px 20px; font-size: 0.9rem;">Richiedi Supporto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Team TrusUs™</h1>
+            <p>Supporto Professionale per la Piattaforma SYNAPSE</p>
+            <a href="/supporto" class="cta-button">
+                <i class="fas fa-headset"></i> Richiedi Supporto Ora
+            </a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Perché Scegliere TrusUs™?</h2>
+            <p class="section-subtitle">Il nostro team di esperti è dedicato a fornire il miglior supporto possibile</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Risposta Rapida</h3>
+                    <p>Rispondiamo alle tue richieste entro 24 ore lavorative, garantendo tempi di risoluzione ottimali per ogni problema.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Team Esperto</h3>
+                    <p>I nostri specialisti hanno anni di esperienza nella piattaforma SYNAPSE e nelle tecnologie correlate.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Sicurezza Garantita</h3>
+                    <p>Tutti i dati e le comunicazioni sono protetti con i più alti standard di sicurezza e crittografia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section" id="team">
+        <div class="container">
+            <div class="team-content">
+                <h2>Chi Siamo</h2>
+                <div class="team-description">
+                    <p>
+                        Il <strong>Team TrusUs™</strong> è il cuore del supporto tecnico di SYNAPSE. Siamo un gruppo di professionisti altamente qualificati, 
+                        specializzati nell'assistenza tecnica, nella risoluzione di problemi complessi e nell'ottimizzazione delle performance della piattaforma.
+                    </p>
+                    <br>
+                    <p>
+                        La nostra missione è garantire che ogni utente della piattaforma SYNAPSE possa sfruttare al massimo tutte le funzionalità disponibili, 
+                        fornendo supporto personalizzato e soluzioni innovative per ogni esigenza specifica.
+                    </p>
+                    <br>
+                    <p>
+                        <strong>Affidabilità, competenza e dedizione</strong> sono i valori che ci guidano ogni giorno nel nostro lavoro.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="support-process">
+        <div class="container">
+            <h2 class="section-title">Come Ricevere Supporto</h2>
+            <p class="section-subtitle">Un processo semplice e sicuro per ottenere l'aiuto di cui hai bisogno</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Verifica Email</h3>
+                    <p>Inserisci la tua email e ricevi un codice di verifica OTP per garantire la sicurezza della comunicazione.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Descrivi il Problema</h3>
+                    <p>Compila il modulo con il titolo e la descrizione dettagliata del tuo problema o richiesta.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Invio Automatico</h3>
+                    <p>La tua richiesta viene automaticamente inoltrata al nostro team di esperti per una valutazione immediata.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Risposta Personalizzata</h3>
+                    <p>Riceverai una risposta dettagliata e personalizzata direttamente nella tua casella email.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 SYNAPSE Platform - Team TrusUs™. Tutti i diritti riservati.</p>
+            <p>Supporto professionale per la tua esperienza SYNAPSE</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling per i link di navigazione
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animazione al scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Applica l'animazione agli elementi
+        document.querySelectorAll('.feature-card, .step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+    
+    <!-- Chat AI Integration -->
+    <script src="chat-ai.js"></script>
+</body>
+</html>
